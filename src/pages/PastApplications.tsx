@@ -123,14 +123,17 @@ const PastApplications = () => {
   const litigationCount = useMemo(() => {
     return applications.filter(app => {
       const loanType = app.loan_type?.toLowerCase() || '';
-      return loanType.includes('litigation');
+      const applicationType = (app as any).application_type?.toLowerCase() || '';
+      return loanType.includes('litigation') || applicationType.includes('litigation');
     }).length;
   }, [applications]);
 
   const legalOpinionCount = useMemo(() => {
     return applications.filter(app => {
       const loanType = app.loan_type?.toLowerCase() || '';
-      return loanType.includes('legal') || loanType.includes('opinion');
+      const applicationType = (app as any).application_type?.toLowerCase() || '';
+      return loanType.includes('legal') || loanType.includes('opinion') || 
+             applicationType.includes('legal') || applicationType.includes('opinion');
     }).length;
   }, [applications]);
 
@@ -141,10 +144,15 @@ const PastApplications = () => {
     // Filter by application type (Litigation vs Legal Opinion)
     filtered = filtered.filter(app => {
       const loanType = app.loan_type?.toLowerCase() || '';
+      const applicationType = (app as any).application_type?.toLowerCase() || '';
+      
       if (activeTab === "litigation") {
-        return loanType.includes('litigation');
+        // Check both loan_type and application_type for litigation
+        return loanType.includes('litigation') || applicationType.includes('litigation');
       } else {
-        return loanType.includes('legal') || loanType.includes('opinion');
+        // Check both loan_type and application_type for legal opinion
+        return loanType.includes('legal') || loanType.includes('opinion') || 
+               applicationType.includes('legal') || applicationType.includes('opinion');
       }
     });
 
