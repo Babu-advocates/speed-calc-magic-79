@@ -35,7 +35,7 @@ const PastApplications = () => {
   const [loading, setLoading] = useState(true);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [signedDocuments, setSignedDocuments] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<"litigation" | "legal-opinion">("litigation");
+  const [activeTab, setActiveTab] = useState<"litigation" | "legal-opinion">("legal-opinion");
 
   // Determine if this is an admin route
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -450,18 +450,18 @@ const PastApplications = () => {
                 <CardContent>
                   <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "litigation" | "legal-opinion")} className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
-                      <TabsTrigger value="litigation" className="flex items-center gap-2">
-                        <Scale className="h-4 w-4" />
-                        Litigation
-                        <Badge variant="secondary" className="ml-2">
-                          {litigationCount}
-                        </Badge>
-                      </TabsTrigger>
                       <TabsTrigger value="legal-opinion" className="flex items-center gap-2">
                         <MessageSquare className="h-4 w-4" />
                         Legal Opinion
                         <Badge variant="secondary" className="ml-2">
                           {legalOpinionCount}
+                        </Badge>
+                      </TabsTrigger>
+                      <TabsTrigger value="litigation" className="flex items-center gap-2">
+                        <Scale className="h-4 w-4" />
+                        Litigation
+                        <Badge variant="secondary" className="ml-2">
+                          {litigationCount}
                         </Badge>
                       </TabsTrigger>
                     </TabsList>
