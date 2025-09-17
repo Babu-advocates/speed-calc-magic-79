@@ -82,6 +82,8 @@ const BankLogin = () => {
         localStorage.setItem("bankAccountId", data.id);
         localStorage.setItem("bankName", data.bank_name);
         localStorage.setItem("bankUsername", data.username);
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userRole", "bank-employee");
         toast.success(`Welcome Bank Employee from ${data.bank_name}!`);
         navigate("/bank-employee-dashboard");
       } else {
@@ -89,6 +91,8 @@ const BankLogin = () => {
         const credentials = demoCredentials[activeTab];
         if (username === credentials.email && password === credentials.password) {
           localStorage.setItem("bankManagerLogin", "true");
+          localStorage.setItem("isAuthenticated", "true");
+          localStorage.setItem("userRole", "bank-manager");
           toast.success("Welcome Bank Manager!");
           navigate("/bank-manager-dashboard");
         } else {

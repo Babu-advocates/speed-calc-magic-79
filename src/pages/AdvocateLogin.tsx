@@ -21,6 +21,8 @@ const AdvocateLogin = () => {
     // Check demo credentials
     if (email === demoCredentials.admin.email && password === demoCredentials.admin.password) {
       localStorage.setItem('isAdminLoggedIn', 'true');
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userRole', 'admin');
       toast.success('Welcome to your admin dashboard!');
       navigate('/admin-dashboard');
     } else {

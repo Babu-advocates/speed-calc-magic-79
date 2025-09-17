@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster as HotToaster } from "react-hot-toast";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import AdvocateLogin from "./pages/AdvocateLogin";
 import EmployeeLogin from "./pages/EmployeeLogin";
@@ -75,44 +76,158 @@ const App = () => (
       />
       <BrowserRouter>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/advocate-login" element={<AdvocateLogin />} />
           <Route path="/employee-login" element={<EmployeeLogin />} />
           <Route path="/bank-login" element={<BankLogin />} />
-          <Route path="/bank-manager-dashboard" element={<BankManagerDashboard />} />
-          <Route path="/bank-manager/document-tracking" element={<DocumentTracking />} />
-          <Route path="/bank-manager/queries-monitoring" element={<QueriesMonitoring />} />
-          <Route path="/bank-manager/reports-analytics" element={<ReportsAnalytics />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
-          <Route path="/bank-employee-dashboard" element={<BankEmployeeDashboard />} />
-          <Route path="/bank-employee/create-application" element={<CreateApplication />} />
-          <Route path="/bank-employee/submissions" element={<MySubmissions />} />
-          <Route path="/bank-employee/queries" element={<BankEmployeeQueries />} />
-          <Route path="/bank-employee/completed" element={<BankEmployeeCompleted />} />
-          <Route path="/bank-employee/payments" element={<BankEmployeePayments />} />
-          <Route path="/bank-employee/hiring-status" element={<BankEmployeeHiringStatus />} />
-          {/* Admin Routes */}
-          <Route path="/admin/applications" element={<LoanApplications />} />
-          <Route path="/admin/loan-recovery" element={<LoanRecovery />} />
-          <Route path="/admin/past-applications" element={<PastApplications />} />
-          <Route path="/admin/payment-details" element={<PaymentDetails />} />
-          <Route path="/admin/create-employee-account" element={<CreateEmployeeAccount />} />
-          <Route path="/admin/create-bank-account" element={<CreateBankAccount />} />
-          <Route path="/admin/bank-accounts" element={<CreateBankAccountList />} />
           
-          {/* Employee Routes */}
-          <Route path="/employee/applications" element={<LoanApplications />} />
-          <Route path="/employee/notifications" element={<EmployeeNotifications />} />
-          <Route path="/employee/past-applications" element={<PastApplications />} />
-          <Route path="/employee/request-to-bank" element={<RequestToBank />} />
-          <Route path="/employee/received-from-bank" element={<ReceivedFromBank />} />
+          {/* Admin Protected Routes */}
+          <Route path="/admin-dashboard" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/applications" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <LoanApplications />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/loan-recovery" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <LoanRecovery />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/past-applications" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PastApplications />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/payment-details" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PaymentDetails />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/create-employee-account" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <CreateEmployeeAccount />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/create-bank-account" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <CreateBankAccount />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/bank-accounts" element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <CreateBankAccountList />
+            </ProtectedRoute>
+          } />
           
+          {/* Employee Protected Routes */}
+          <Route path="/employee-dashboard" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <EmployeeDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/employee/applications" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <LoanApplications />
+            </ProtectedRoute>
+          } />
+          <Route path="/employee/notifications" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <EmployeeNotifications />
+            </ProtectedRoute>
+          } />
+          <Route path="/employee/past-applications" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <PastApplications />
+            </ProtectedRoute>
+          } />
+          <Route path="/employee/request-to-bank" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <RequestToBank />
+            </ProtectedRoute>
+          } />
+          <Route path="/employee/received-from-bank" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <ReceivedFromBank />
+            </ProtectedRoute>
+          } />
+          <Route path="/employee/attendance" element={
+            <ProtectedRoute allowedRoles={["employee"]}>
+              <EmployeeAttendance />
+            </ProtectedRoute>
+          } />
           
-          {/* Shared Routes */}
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/employee/attendance" element={<EmployeeAttendance />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* Bank Manager Protected Routes */}
+          <Route path="/bank-manager-dashboard" element={
+            <ProtectedRoute allowedRoles={["bank-manager"]}>
+              <BankManagerDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-manager/document-tracking" element={
+            <ProtectedRoute allowedRoles={["bank-manager"]}>
+              <DocumentTracking />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-manager/queries-monitoring" element={
+            <ProtectedRoute allowedRoles={["bank-manager"]}>
+              <QueriesMonitoring />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-manager/reports-analytics" element={
+            <ProtectedRoute allowedRoles={["bank-manager"]}>
+              <ReportsAnalytics />
+            </ProtectedRoute>
+          } />
+          
+          {/* Bank Employee Protected Routes */}
+          <Route path="/bank-employee-dashboard" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <BankEmployeeDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-employee/create-application" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <CreateApplication />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-employee/submissions" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <MySubmissions />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-employee/queries" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <BankEmployeeQueries />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-employee/completed" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <BankEmployeeCompleted />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-employee/payments" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <BankEmployeePayments />
+            </ProtectedRoute>
+          } />
+          <Route path="/bank-employee/hiring-status" element={
+            <ProtectedRoute allowedRoles={["bank-employee"]}>
+              <BankEmployeeHiringStatus />
+            </ProtectedRoute>
+          } />
+          
+          {/* Shared Routes - Allow both admin and employee */}
+          <Route path="/attendance" element={
+            <ProtectedRoute allowedRoles={["admin", "employee"]}>
+              <Attendance />
+            </ProtectedRoute>
+          } />
+          
+          {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

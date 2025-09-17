@@ -27,6 +27,7 @@ import {
   Building
 } from "lucide-react";
 import { showToast } from "@/lib/toast";
+import { logout } from "@/utils/auth";
 
 const menuItems = [
   {
@@ -66,9 +67,8 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
 
   const handleLogout = () => {
-    localStorage.removeItem('isAdminLoggedIn');
     showToast.success("Successfully logged out!");
-    navigate('/advocate-login');
+    logout();
   };
 
   return (

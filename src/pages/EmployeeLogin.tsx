@@ -38,6 +38,8 @@ const EmployeeLogin = () => {
       localStorage.setItem("employeeLogin", "true");
       localStorage.setItem("employeeUsername", data.username);
       localStorage.setItem("employeeId", data.id);
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("userRole", "employee");
       
       showToast.success("Welcome back!");
       navigate("/employee-dashboard");
