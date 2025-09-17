@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { History, FileText, Calendar, User, DollarSign, CheckCircle, XCircle, Eye, Building2, ArrowUpDown, Loader2, Phone, Mail, MapPin, Download } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { History, FileText, Calendar, User, DollarSign, CheckCircle, XCircle, Eye, Building2, ArrowUpDown, Loader2, Phone, Mail, MapPin, Download, Scale, MessageSquare } from "lucide-react";
 import { EmployeeSidebar } from "@/components/EmployeeSidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useState, useMemo, useEffect } from "react";
@@ -34,6 +35,7 @@ const PastApplications = () => {
   const [loading, setLoading] = useState(true);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [signedDocuments, setSignedDocuments] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<"litigation" | "legal-opinion">("litigation");
 
   // Determine if this is an admin route
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -117,9 +119,34 @@ const PastApplications = () => {
     return uniqueBanks.sort();
   }, [applications]);
 
+  // Count applications by type
+  const litigationCount = useMemo(() => {
+    return applications.filter(app => {
+      const loanType = app.loan_type?.toLowerCase() || '';
+      return loanType.includes('litigation');
+    }).length;
+  }, [applications]);
+
+  const legalOpinionCount = useMemo(() => {
+    return applications.filter(app => {
+      const loanType = app.loan_type?.toLowerCase() || '';
+      return loanType.includes('legal') || loanType.includes('opinion');
+    }).length;
+  }, [applications]);
+
   // Filter and sort applications
   const filteredAndSortedApplications = useMemo(() => {
     let filtered = applications;
+
+    // Filter by application type (Litigation vs Legal Opinion)
+    filtered = filtered.filter(app => {
+      const loanType = app.loan_type?.toLowerCase() || '';
+      if (activeTab === "litigation") {
+        return loanType.includes('litigation');
+      } else {
+        return loanType.includes('legal') || loanType.includes('opinion');
+      }
+    });
 
     // Filter by bank
     if (selectedBank !== "all") {
@@ -137,7 +164,7 @@ const PastApplications = () => {
     });
 
     return sorted;
-  }, [applications, selectedBank, sortOrder]);
+  }, [applications, selectedBank, sortOrder, activeTab]);
   const getStatusIcon = (status: string) => {
     switch (status.toLowerCase()) {
       case "approved":
@@ -374,7 +401,7 @@ const PastApplications = () => {
                         Completed Applications
                       </CardTitle>
                       <CardDescription>
-                        Showing {filteredAndSortedApplications.length} of {applications.length} applications
+                        Showing {filteredAndSortedApplications.length} of {activeTab === "litigation" ? litigationCount : legalOpinionCount} {activeTab === "litigation" ? "litigation" : "legal opinion"} applications
                       </CardDescription>
                     </div>
                     
@@ -413,19 +440,38 @@ const PastApplications = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  {loading ? (
-                    <div className="flex items-center justify-center py-8">
-                      <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
-                      <span className="ml-2 text-slate-600">Loading applications...</span>
-                    </div>
-                  ) : filteredAndSortedApplications.length === 0 ? (
-                    <div className="text-center py-8">
-                      <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-slate-900 mb-2">No applications found</h3>
-                      <p className="text-slate-600">No applications match your current filters.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
+                  <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "litigation" | "legal-opinion")} className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 mb-6">
+                      <TabsTrigger value="litigation" className="flex items-center gap-2">
+                        <Scale className="h-4 w-4" />
+                        Litigation
+                        <Badge variant="secondary" className="ml-2">
+                          {litigationCount}
+                        </Badge>
+                      </TabsTrigger>
+                      <TabsTrigger value="legal-opinion" className="flex items-center gap-2">
+                        <MessageSquare className="h-4 w-4" />
+                        Legal Opinion
+                        <Badge variant="secondary" className="ml-2">
+                          {legalOpinionCount}
+                        </Badge>
+                      </TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value={activeTab} className="mt-4">
+                      {loading ? (
+                        <div className="flex items-center justify-center py-8">
+                          <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
+                          <span className="ml-2 text-slate-600">Loading applications...</span>
+                        </div>
+                      ) : filteredAndSortedApplications.length === 0 ? (
+                        <div className="text-center py-8">
+                          <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+                          <h3 className="text-lg font-medium text-slate-900 mb-2">No {activeTab === "litigation" ? "Litigation" : "Legal Opinion"} applications found</h3>
+                          <p className="text-slate-600">No {activeTab === "litigation" ? "litigation" : "legal opinion"} applications match your current filters.</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
                       {filteredAndSortedApplications.map((application) => (
                         <Card key={application.id} className="border border-slate-200 hover:shadow-md transition-shadow duration-200">
                           <CardContent className="p-6">
@@ -645,6 +691,8 @@ const PastApplications = () => {
                       ))}
                     </div>
                   )}
+                    </TabsContent>
+                  </Tabs>
                 </CardContent>
               </Card>
             </div>
