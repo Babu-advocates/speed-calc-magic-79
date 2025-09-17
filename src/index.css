@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+
+Animation keyframes for smooth transitions and effects
+*/
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hover-scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Utility classes for animations */
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+@layer base {
+  :root {
+    --background: 220 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    --primary: 215 45% 25%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 215 45% 20%;
+
+    --secondary: 210 20% 92%;
+    --secondary-foreground: 215 25% 25%;
+
+    --muted: 210 20% 95%;
+    --muted-foreground: 215 15% 50%;
+
+    --accent: 45 85% 60%;
+    --accent-foreground: 215 25% 15%;
+    --accent-hover: 45 85% 55%;
+
+    /* Login theme colors */
+    --admin-blue: 215 100% 60%;
+    --admin-blue-foreground: 0 0% 100%;
+    --admin-blue-hover: 215 100% 55%;
+    
+    --employee-red: 0 85% 60%;
+    --employee-red-foreground: 0 0% 100%;
+    --employee-red-hover: 0 85% 55%;
+    
+    --bank-navy: 220 60% 20%;
+    --bank-navy-foreground: 0 0% 100%;
+    --bank-navy-hover: 220 60% 15%;
+    
+    --bank-success: 160 50% 40%;
+    --bank-success-foreground: 0 0% 100%;
+    --bank-warning: 40 90% 50%;
+    --bank-warning-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 25% 88%;
+    --input: 210 25% 92%;
+    --ring: 215 45% 25%;
+
+    /* Legal-themed colors */
+    --justice-gold: 45 85% 60%;
+    --legal-deep-blue: 220 60% 20%;
+    --court-purple: 260 50% 35%;
+    --law-emerald: 160 50% 30%;
+    --prestige-amber: 40 90% 55%;
+
+    /* Corporate dashboard colors */
+    --corporate-blue: 200 95% 45%;
+    --corporate-blue-foreground: 0 0% 100%;
+    --corporate-teal: 180 85% 40%;
+    --corporate-teal-foreground: 0 0% 100%;
+    --dashboard-bg: 210 25% 98%;
+    --dashboard-card: 0 0% 100%;
+    --dashboard-card-hover: 210 25% 99%;
+
+    /* Professional gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(215 45% 35%));
+    --gradient-hero: linear-gradient(135deg, hsl(215 45% 15%) 0%, hsl(215 45% 25%) 50%, hsl(215 45% 35%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(210 20% 98%) 100%);
+    --gradient-corporate: linear-gradient(135deg, hsl(var(--corporate-blue)) 0%, hsl(var(--corporate-teal)) 100%);
+    --gradient-dashboard: linear-gradient(180deg, hsl(var(--dashboard-bg)) 0%, hsl(210 30% 96%) 100%);
+    
+    /* Legal-themed gradients */
+    --gradient-justice: linear-gradient(135deg, hsl(var(--legal-deep-blue)) 0%, hsl(var(--court-purple)) 50%, hsl(var(--justice-gold)) 100%);
+    --gradient-law-firm: linear-gradient(145deg, hsl(220 60% 25%) 0%, hsl(260 50% 40%) 100%);
+    --gradient-prestige: linear-gradient(135deg, hsl(var(--prestige-amber)) 0%, hsl(var(--justice-gold)) 100%);
+    --gradient-legal-bg: linear-gradient(145deg, hsl(220 40% 96%) 0%, hsl(260 30% 98%) 50%, hsl(45 60% 98%) 100%);
+    --gradient-employee-light: linear-gradient(180deg, hsl(210 25% 97%) 0%, hsl(220 20% 95%) 100%);
+    --gradient-employee-rich: linear-gradient(135deg, hsl(0 70% 35%) 0%, hsl(340 60% 40%) 50%, hsl(320 55% 45%) 100%);
+    --gradient-bank-light: linear-gradient(180deg, hsl(220 40% 98%) 0%, hsl(220 30% 96%) 100%);
+    --gradient-bank-rich: linear-gradient(135deg, hsl(160 60% 20%) 0%, hsl(150 50% 30%) 50%, hsl(140 55% 40%) 100%);
+
+    /* Professional shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(215 45% 25% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(215 45% 25% / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
